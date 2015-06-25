@@ -1,6 +1,5 @@
 var score = 0;
 var scoreText;
-var platform;
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
 function preload() {
@@ -18,17 +17,18 @@ function create() {
 
   ground = game.add.group();
   ground.enableBody = true;
-  var earth = ground.create(0, game.world.height - 25, 'ground');
+  earth = ground.create(0, game.world.height - 25, 'ground');
   earth.scale.setTo(2, 1);
   earth.body.immovable = true;
 
   platform = game.add.group();
   platform.enableBody = true;
-  var plat = platform.create(100, game.world.height -350, 'platform');
+  plat = platform.create(100, game.world.height -350, 'platform');
   plat.scale.setTo(0.25, 0.25);
   plat.body.setSize(265, 10, 40, 20);
+  platform.setAll('body.velocity.x', this.rnd.between(100, 150));
   // sprite.body.setSize(width, height, offsetX, offsetY)
-  //need to adjust the body size so player lands "on cloud"
+  // need to fine tune "body" boxes
   plat.body.immovable = true;
 
 
@@ -36,12 +36,12 @@ function create() {
   game.physics.arcade.enable(player);
   player.body.bounce.y = 0.2;
   player.body.bounce.x = 300;
-  player.body.collideWorldBounds = true;
   player.animations.add('left', [0, 1, 2, 0], 10, true);
   player.animations.add('right', [0, 1, 2, 0], 10, true);
   player.body.gravity.y = 1300;
-
+  player.body.collideWorldBounds = true;
   scoreText = game.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+
 }
 
 function update() {
@@ -77,5 +77,5 @@ function update() {
     {
         player.body.velocity.y = -650;
     }
-
+    game.world.wrap(plat.body, plat.width / 1, false);
 }
