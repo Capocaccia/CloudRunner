@@ -1,0 +1,19 @@
+#gameDiv {
+  position:absolute;
+  left: 50%;
+  margin-left: -400px;
+  top: 50%;
+  margin-top: 20px;
+  width: 800px;
+  height: 600px;
+}
+
+body {
+  position: relative;
+  background-image: url('assets/moon-clouds.jpg')
+}
+
+
+<div style="">
+  <div style=""></div>
+</div>

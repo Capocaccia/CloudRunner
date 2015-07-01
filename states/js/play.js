@@ -64,10 +64,11 @@ var playState = {
          y += 200;
     }
 
-    ufo = game.add.sprite(350, game.world.height - 3600, 'ufo')
+    ufo = game.add.sprite(175, game.world.height - 3600, 'ufo') //value for where to place UFO: G.W.H - 3600
     game.physics.arcade.enable(ufo);
     ufo.body.setSize(75, 200, 180, 0);
     ufo.body.immovable = true;
+    // ufo.body.velocity.x = 125;
     // sprite.body.setSize(width, height, offsetX, offsetY)
 
     player = game.add.sprite(32, game.world.height - 150, 'dude');
@@ -81,7 +82,7 @@ var playState = {
     player.body.collideWorldBounds = true;
     player.scale.setTo(0.75, 0.75);
 
-    game.camera.follow(player);
+    game.camera.follow(player);  //camera needs to be set back to follow player after fixing UFO
   },
 
   wrapPlatform: function (platform) {
@@ -94,7 +95,6 @@ var playState = {
             {
                 platform.x = -160;
             }
-
         },
 
   update: function() {
@@ -111,14 +111,14 @@ var playState = {
       if (cursors.left.isDown)
       {
           //  Move to the left
-          player.body.velocity.x = -150;
+          player.body.velocity.x = -250;
 
           player.animations.play('left');
       }
       else if (cursors.right.isDown)
       {
           //  Move to the right
-          player.body.velocity.x = 150;
+          player.body.velocity.x = 250;
 
           player.animations.play('right');
       }
@@ -146,10 +146,10 @@ var playState = {
       // game.debug.cameraInfo(game.camera, 32, 32);
       // game.debug.spriteCoords(player, 32, 500);
       // game.debug.soundInfo(jumpSound, 20, 32);
-
   },
 
   win: function (){
+      music.stop();
       game.state.start('win');
   }
 }
