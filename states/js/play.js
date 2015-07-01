@@ -17,20 +17,6 @@ var playState = {
     earth.scale.setTo(2, 1);
     earth.body.immovable = true;
 
-    // old code for making platforms.
-    // platform = game.add.group();
-    // platform.enableBody = true;
-    // plat = platform.create(100, game.world.height -350, 'platform');
-    // plat.scale.setTo(0.25, 0.25);
-    // plat.body.setSize(265, 10, 40, 20);
-    // platform.setAll('body.velocity.x', this.rnd.between(100, 150));
-    // sprite.body.setSize(width, height, offsetX, offsetY)
-    // plat.body.immovable = true;
-
-    // platforms.setAll('body.immovable', true);
-    // platforms.setAll('body.allowGravity', false);
-    // platforms.setAll('body.setSize(265, 10, 40, 20', true);
-
     platforms = this.add.physicsGroup();
 
     var x = 0;
@@ -82,7 +68,7 @@ var playState = {
     player.body.collideWorldBounds = true;
     player.scale.setTo(0.75, 0.75);
 
-    game.camera.follow(player);  //camera needs to be set back to follow player after fixing UFO
+    game.camera.follow(player);
   },
 
   wrapPlatform: function (platform) {
