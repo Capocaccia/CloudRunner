@@ -1,8 +1,8 @@
 var playState = {
 
   create: function () {
+
     game.world.setBounds(0, 0, 800, 3500);
-    //trying to get cam to follow player
     game.physics.startSystem(Phaser.Physics.ARCADE);
     game.add.sprite(0, 0, 'sky');
 
@@ -71,6 +71,10 @@ var playState = {
     game.camera.follow(player);
   },
 
+  pauseMusic: function(){
+    music.pause();
+  },
+
   wrapPlatform: function (platform) {
 
             if (platform.body.velocity.x < 0 && platform.x <= -160)
@@ -87,9 +91,6 @@ var playState = {
     game.physics.arcade.collide(player, ground);
     game.physics.arcade.collide(player, platforms);
 
-    var ukey = game.input.keyboard.addKey(Phaser.Keyboard.U);
-    ukey.onDown.addOnce(this.win, this);
-
     platforms.forEach(this.wrapPlatform, this);
     cursors = game.input.keyboard.createCursorKeys();
     player.body.velocity.x = 0;
@@ -97,14 +98,14 @@ var playState = {
       if (cursors.left.isDown)
       {
           //  Move to the left
-          player.body.velocity.x = -250;
+          player.body.velocity.x = -265;
 
           player.animations.play('left');
       }
       else if (cursors.right.isDown)
       {
           //  Move to the right
-          player.body.velocity.x = 250;
+          player.body.velocity.x = 265;
 
           player.animations.play('right');
       }
@@ -117,9 +118,9 @@ var playState = {
       }
 
       //  Allow the player to jump if they are touching the ground.
-      if (cursors.up.isDown ) //&& player.body.touching.down
+      if (cursors.up.isDown && player.body.touching.down) //
       {
-          player.body.velocity.y = -800;
+          player.body.velocity.y = -805;
           // jumpSound.play();  //turned off while testing.  Got annoying.
       }
       game.physics.arcade.overlap(player, ufo, this.win, null, this);
