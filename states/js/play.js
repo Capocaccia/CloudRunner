@@ -2,36 +2,41 @@ var playState = {
 
   create: function () {
 
+      //setting world dimensions, adding physics engine, added background 'sky'
     game.world.setBounds(0, 0, 800, 3500);
     game.physics.startSystem(Phaser.Physics.ARCADE);
     game.add.sprite(0, 0, 'sky');
 
+      //sounds
     jumpSound = game.add.audio('jump');
     music = game.add.audio('music');
     music.loop = true;
-    // music.play(); //uncomment to initiate music
+    music.play(); //uncomment to initiate music
 
+      //created a group for my ground object
     ground = game.add.group();
     ground.enableBody = true;
     earth = ground.create(0, game.world.height - 25, 'ground');
     earth.scale.setTo(2, 1);
     earth.body.immovable = true;
 
+      //part of my platform contructor function
     platforms = this.add.physicsGroup();
 
     var x = 0;
     var y = 64;
 
+      //creates i<X platforms, gives them random direction and speed
     for (var i = 0; i < 17; i++)
-    {
+      {
+          //this allows me to add a second type of platform in V2.0
         var type = i % 2 === 1 ? 'platform' : 'platform';
         var platform = platforms.create(x, y, type);
         platform.scale.setTo(0.25, 0.25);
         platform.body.immovable = true;
         platform.body.setSize(300, 10, 40, 20);
-        // need to fine tune "body" boxes
 
-        //  Set a random speed between 50 and 200
+        //  Set a random platform speed between 100 & 150
         platform.body.velocity.x = this.rnd.between(100, 150);
 
         //  Inverse it?
@@ -48,8 +53,10 @@ var playState = {
         }
 
          y += 200;
-    }
+      }
 
+
+      //UFO is added and given physics so it can have a body and player can collide
     ufo = game.add.sprite(175, game.world.height - 3600, 'ufo') //value for where to place UFO: G.W.H - 3600
     game.physics.arcade.enable(ufo);
     ufo.body.setSize(75, 200, 180, 0);
@@ -57,6 +64,8 @@ var playState = {
     // ufo.body.velocity.x = 125;
     // sprite.body.setSize(width, height, offsetX, offsetY)
 
+
+      //added the player sprite.  Gave him properties and animations
     player = game.add.sprite(32, game.world.height - 150, 'dude');
     game.physics.arcade.enable(player);
     player.body.setSize(65, 85, 0, 8);
@@ -68,11 +77,9 @@ var playState = {
     player.body.collideWorldBounds = true;
     player.scale.setTo(0.75, 0.75);
 
-    game.camera.follow(player);
-  },
 
-  pauseMusic: function(){
-    music.pause();
+      //set the camera to follow the player object
+    game.camera.follow(player);
   },
 
   wrapPlatform: function (platform) {
@@ -88,6 +95,17 @@ var playState = {
         },
 
   update: function() {
+
+
+      //allows the player to pause music by pressing P.  Should have added this way earlier.
+    mute = game.input.keyboard.addKey(Phaser.Keyboard.P);
+    if(mute.isDown && music.isPlaying === true){
+        music.pause();
+    } else if(mute.isDown && music.isPlaying !== true){
+        music.resume();
+    }
+
+      //tells the physics engine what objects should collide with what other object
     game.physics.arcade.collide(player, ground);
     game.physics.arcade.collide(player, platforms);
 
@@ -121,11 +139,13 @@ var playState = {
       if (cursors.up.isDown && player.body.touching.down) //
       {
           player.body.velocity.y = -805;
-          // jumpSound.play();  //turned off while testing.  Got annoying.
+          jumpSound.play();
       }
+        //checks for overlap between the player and ufo.  If overlap===true then win function is called.
       game.physics.arcade.overlap(player, ufo, this.win, null, this);
   },
 
+    //this entire function is used to debug certain items and is not needed for gameplay
   render: function () {
       // game.debug.body(player);
       // game.debug.body(ufo);
@@ -135,6 +155,7 @@ var playState = {
       // game.debug.soundInfo(jumpSound, 20, 32);
   },
 
+    //stops music when when function is called and starts the win state when overlap is detected
   win: function (){
       music.stop();
       game.state.start('win');
