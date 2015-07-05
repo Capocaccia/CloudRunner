@@ -136,12 +136,12 @@ var playState = {
       }
 
       //  Allow the player to jump if they are touching the ground.
-      if (cursors.up.isDown ) //&& player.body.touching.down
+      if (cursors.up.isDown && player.body.touching.down) //
       {
           player.body.velocity.y = -805;
           jumpSound.play();
       }
-        //checks for overlap between the player and ufo.  If overlap===true then win function is called.
+        //checks for overlap between the player and ufo.  If overlap === true then win function is called.
       game.physics.arcade.overlap(player, ufo, this.win, null, this);
   },
 
