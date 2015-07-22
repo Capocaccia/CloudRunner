@@ -20,7 +20,7 @@ var playState = {
     earth.scale.setTo(2, 1);
     earth.body.immovable = true;
 
-      //part of my platform contructor function
+      //part of my platform constructor function
     platforms = this.add.physicsGroup();
 
       //UFO is added and given physics so it can have a body and player can collide

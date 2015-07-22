@@ -10,7 +10,7 @@ var loadState = {
     game.load.image('menu', 'assets/menuscreen.png');
     game.load.audio('winSound', 'assets/win.wav');
     game.load.audio('jump', 'assets/jump.wav');
-    game.load.audio('music', 'assets/music.wav');
+    game.load.audio('music', 'assets/music.ogg');
     game.load.spritesheet('dude', 'assets/yellow.png', 79, 95);
   },
   create: function() {
