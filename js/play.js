@@ -23,9 +23,32 @@ var playState = {
       //part of my platform contructor function
     platforms = this.add.physicsGroup();
 
+      //UFO is added and given physics so it can have a body and player can collide
+    ufo = game.add.sprite(175, game.world.height - 3600, 'ufo')
+    game.physics.arcade.enable(ufo);
+    ufo.body.setSize(75, 200, 180, 0);
+    ufo.body.immovable = true;
+    // ufo.body.velocity.x = 125;
+    // sprite.body.setSize(width, height, offsetX, offsetY)
+
+      //added the player sprite.  Gave him properties and animations
+    player = game.add.sprite(32, game.world.height - 150, 'dude');
+    game.physics.arcade.enable(player);
+    player.body.setSize(65, 85, 0, 8);
+    player.body.bounce.y = 0.1;
+    player.body.bounce.x = 300;
+    player.animations.add('left', [0, 1, 2, 0], 10, true);
+    player.animations.add('right', [0, 1, 2, 0], 10, true);
+    player.body.gravity.y = 1300;
+    player.body.collideWorldBounds = true;
+    player.scale.setTo(0.75, 0.75);
+
+
+      //set the camera to follow the player object
+    game.camera.follow(player);
+
     var x = 0;
     var y = 64;
-
       //creates i<X platforms, gives them random direction and speed
     for (var i = 0; i < 17; i++)
       {
@@ -54,32 +77,6 @@ var playState = {
 
          y += 200;
       }
-
-
-      //UFO is added and given physics so it can have a body and player can collide
-    ufo = game.add.sprite(175, game.world.height - 3600, 'ufo') //value for where to place UFO: G.W.H - 3600
-    game.physics.arcade.enable(ufo);
-    ufo.body.setSize(75, 200, 180, 0);
-    ufo.body.immovable = true;
-    // ufo.body.velocity.x = 125;
-    // sprite.body.setSize(width, height, offsetX, offsetY)
-
-
-      //added the player sprite.  Gave him properties and animations
-    player = game.add.sprite(32, game.world.height - 150, 'dude');
-    game.physics.arcade.enable(player);
-    player.body.setSize(65, 85, 0, 8);
-    player.body.bounce.y = 0.1;
-    player.body.bounce.x = 300;
-    player.animations.add('left', [0, 1, 2, 0], 10, true);
-    player.animations.add('right', [0, 1, 2, 0], 10, true);
-    player.body.gravity.y = 1300;
-    player.body.collideWorldBounds = true;
-    player.scale.setTo(0.75, 0.75);
-
-
-      //set the camera to follow the player object
-    game.camera.follow(player);
   },
 
   wrapPlatform: function (platform) {
@@ -95,7 +92,6 @@ var playState = {
         },
 
   update: function() {
-
 
       //allows the player to pause music by pressing P.  Should have added this way earlier.
     mute = game.input.keyboard.addKey(Phaser.Keyboard.P);
@@ -145,7 +141,13 @@ var playState = {
       game.physics.arcade.overlap(player, ufo, this.win, null, this);
   },
 
-    //this entire function is used to debug certain items and is not needed for gameplay
+    //stops music when when function is called and starts the win state when overlap is detected
+  win: function (){
+      music.stop();
+      game.state.start('win');
+  },
+
+      //this entire function is used to debug certain items and is not needed for gameplay
   render: function () {
       // game.debug.body(player);
       // game.debug.body(ufo);
@@ -154,10 +156,4 @@ var playState = {
       // game.debug.spriteCoords(player, 32, 500);
       // game.debug.soundInfo(jumpSound, 20, 32);
   },
-
-    //stops music when when function is called and starts the win state when overlap is detected
-  win: function (){
-      music.stop();
-      game.state.start('win');
-  }
 }
