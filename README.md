@@ -1,5 +1,7 @@
 # Cloud Runner
 
-//This is my first attempt at using the Phaser game framework.  Click the link below to play.
+//A simple game I made using the Phaser game framework.  Click the link below to play.
 
- http://capocaccia.github.io/CloudRunner
+Cloud Runner:  http://capocaccia.github.io/CloudRunner
+
+Phaser Game Framework:  http://phaser.io/
